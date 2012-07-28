@@ -1,38 +1,35 @@
-var app = window.APP || {};
-APP = (function () {
+var app = window.app || {};
+app = (function () {
 	var method, api;
-	method = {boot: function () {APP.Harness.boot();}};
+	method = {boot: function () {app.Harness.boot();}};
 	api    = {boot: function () {method.boot();}};
 	return api;
 }());
 
-APP.Harness = (function () {
+app.Harness = (function () {
 	var property, method, api;
 	method = {
-		boot: function () {
-			APP.Analytics.boot();
-			APP.Module.boot();
-			//boot all the things!
+		boot: function () {//boot all the things!
+			app.Analytics.boot();
+			app.Module.boot();
 		}
 	};
-	api = {boot: function () {method.boot();}};
+	api = {boot: method.boot};
 	return api;
 }());
 
-APP.Module = (function () {
+app.Module = (function () {
 	var property, method, api;
 	property = {
 		locale: {}
 	};
 	method = {
 		boot: function () {
-			APP.Dev.logGroupStart('APP.Module.boot();');
 			method.helloWorld();
 			method.getLocation();
-			APP.Dev.logGroupEnd();
 		},
 		helloWorld: function () {
-			APP.Dev.log('hello world!');
+			app.Dev.log('hello world!');
 		},
 		getLocation: function () {
 			navigator.geolocation.getCurrentPosition(function (position) {method.setLocation(position);});
@@ -43,20 +40,20 @@ APP.Module = (function () {
 			APP.Dev.log('you seem to be here: ', property.locale);
 		}
 	};
-	api = {//put pointers here to expose methods
-		boot: function () {method.boot();}
+	api = {
+		boot: method.boot
 	};
 	return api;
 }());
 
-APP.Analytics = (function () {
+app.Analytics = (function () {
 	var property, method, api;
 	property = {
 		account: 'XXXXXXXX-X'
 	};
 	method = {
 		boot: function () {
-			APP.Dev.log('GA code here');
+			app.Dev.log('GA code here');
 			//set glocal array for GA with account number
 			//load ga via yepnope
 		}
@@ -65,13 +62,13 @@ APP.Analytics = (function () {
 	return api;
 }());
 
-APP.Dev = (function () {
+app.Dev = (function () {
 	var property, method, api;
 	property = {
 		debugMode: true,
 		label: null
 	};
-	method = {//implementation
+	method = {
 		consoleLog: function (message, thing) {
 			if (property.debugMode && typeof (console) !== 'undefined') {
 				if (thing) {
@@ -104,19 +101,10 @@ APP.Dev = (function () {
 			}
 		}
 	};
-	api = {//interface
-		log: function (message, thing) {
-			method.consoleLog(message, thing);
-		},
-		logGroupStart: function (label) {
-			method.consoleGroup(label);
-		},
-		logGroupEnd: function () {
-			method.consoleGroupEnd();
-		}
+	api = {
+		log: method.consoleLog,
+		logGroupStart: method.consoleGroup,
+		logGroupEnd: method.consoleGroupEnd
 	};
 	return api;
 }());
-
-
-//http://folktrash.com
