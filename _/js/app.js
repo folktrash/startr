@@ -1,29 +1,27 @@
 var app = window.app || {};
+
 app = (function () {
-	var method, api;
-	method = {boot: function () {app.Harness.boot();}};
-	api    = {boot: function () {method.boot();}};
+	var method = {boot: function () {app.Harness.boot();}};
+	var api    = {boot: function () {method.boot();}};
 	return api;
 }());
 
 app.Harness = (function () {
-	var property, method, api;
-	method = {
+	var method = {
 		boot: function () {//boot all the things!
 			app.Analytics.boot();
 			app.Module.boot();
 		}
 	};
-	api = {boot: method.boot};
+	var api = {boot: method.boot};
 	return api;
 }());
 
 app.Module = (function () {
-	var property, method, api;
-	property = {
+	var property = {
 		locale: {}
 	};
-	method = {
+	var method = {
 		boot: function () {
 			method.helloWorld();
 			method.getLocation();
@@ -40,35 +38,33 @@ app.Module = (function () {
 			APP.Dev.log('you seem to be here: ', property.locale);
 		}
 	};
-	api = {
+	var api = {
 		boot: method.boot
 	};
 	return api;
 }());
 
 app.Analytics = (function () {
-	var property, method, api;
-	property = {
+	var property = {
 		account: 'XXXXXXXX-X'
 	};
-	method = {
+	var method = {
 		boot: function () {
 			app.Dev.log('GA code here');
 			//set glocal array for GA with account number
 			//load ga via yepnope
 		}
 	};
-	api = {boot: function () {method.boot();}};
+	var api = {boot: function () {method.boot();}};
 	return api;
 }());
 
 app.Dev = (function () {
-	var property, method, api;
-	property = {
+	var property = {
 		debugMode: true,
 		label: null
 	};
-	method = {
+	var method = {
 		consoleLog: function (message, thing) {
 			if (property.debugMode && typeof (console) !== 'undefined') {
 				if (thing) {
@@ -101,7 +97,7 @@ app.Dev = (function () {
 			}
 		}
 	};
-	api = {
+	var api = {
 		log: method.consoleLog,
 		logGroupStart: method.consoleGroup,
 		logGroupEnd: method.consoleGroupEnd
